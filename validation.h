@@ -8,14 +8,14 @@ unsigned validate_arraysize_input(const char *prompt)
     {
         printf("%s", prompt);
         input = scanf("%d", &value);
-        if (input != 1 || value < 2 || value > 10000)
+        if (input != 1 || value < 2 || value > 1000)
         {
             printf("Invalid input. Please enter a valid number.\n");
             value = 0;
         }
         fflush(stdin);
     }
-    while (input != 1 || value < 2 || value > 10000);
+    while (input != 1 || value < 2 || value > 1000);
     return value;
 }
 double val_char_input(const char *prompt)

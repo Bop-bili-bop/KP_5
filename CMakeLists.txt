@@ -6,4 +6,5 @@ set(CMAKE_C_STANDARD 99)
 add_executable(KP_5 main.c
         "sort.h"
         validation.h
-        "str_generator.h")
+        "randomize_output.h"
+        main.c)

@@ -1,6 +1,6 @@
 #ifndef VALIDATION_H
 #define VALIDATION_H
-unsigned validate_arraysize_input(const char *prompt)
+int validate_arraysize_input(char *prompt, int min, int max)
 {
     int value = 0 ;
     int input = 0;
@@ -8,32 +8,29 @@ unsigned validate_arraysize_input(const char *prompt)
     {
         printf("%s", prompt);
         input = scanf("%d", &value);
-        if (input != 1 || value < 2 || value > 1000)
+        if (input != 1 || value < min || value > max)
         {
             printf("Invalid input. Please enter a valid number.\n");
             value = 0;
         }
         fflush(stdin);
     }
-    while (input != 1 || value < 2 || value > 1000);
+    while (input != 1 || value < min || value > max);
     return value;
 }
-double val_char_input(const char *prompt)
+double val_char_input(char *prompt, char choice_1, char choice_2)
 {
-    char value = 0 ;
-    char input = 0;
-    do
-    {
+    char user_choice = 0;
+    do {
         printf("%s", prompt);
-        input = scanf("%c", &value);
-        if (input != 1)
+        user_choice = getchar();
+        if (user_choice != choice_1 && user_choice != choice_2)
         {
-            printf("Invalid input. Please enter a valid number.\n");
-            value = 0;
+            printf("Invalid input.\n");
         }
         fflush(stdin);
     }
-    while (input != 1);
-    return value;
+    while (user_choice != choice_1 && user_choice != choice_2);
+    return user_choice;
 }
 #endif

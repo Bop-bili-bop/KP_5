@@ -4,45 +4,49 @@
 #include "randomize_output.h"
 #include "sort.h"
 #include <time.h>
+#define STR_SIZE_MIN 1
+#define STR_SIZE_MAX 100
+#define STR_N_MIN 3
+#define STR_N_MAX 1000
+#define RANDOM_RANGE_MIN 65
+#define RANDOM_RANGE_MAX 122
 int main()
 {
     do
     {
-        printf("This program sorts inputed or randomly generated strings\n");
+        printf("This program sorts inputed or randomly generated strings (2 - 1000 strings)\n");
         srand(time(NULL));
-        unsigned str_size = 0;
-        unsigned n_str = 0;
-        str_size = validate_arraysize_input("Enter string size:\n");
-        n_str = validate_arraysize_input("Enter number of strings:\n");
-        char string_value[n_str][str_size+1];
-        char *string_address[n_str];
-        char output_type = 0;
-        do
+        int str_size = 0;
+        int n_str = 0;
+        str_size = validate_arraysize_input("Enter string size:\n", STR_SIZE_MIN, STR_SIZE_MAX);
+        n_str = validate_arraysize_input("Enter number of strings:\n", STR_N_MIN, STR_N_MAX);
+        char string_value[n_str][str_size+1] = {};
+        char *string_address[n_str] = {};
+        char user_choice = 0;
+        user_choice = val_char_input("Type 'r' for random 'm' to enter strings manually\n", 'r', 'm');
+        if (user_choice == 'm')
         {
-            printf("Type 'r' for random 'm' to enter strings manually\n");
-            output_type = getchar();
-            if (output_type != 'r' && output_type != 'm')
+            int i = 0;
+            while(i < n_str)
             {
-                printf("Invalid input.\n");
-            }
-            fflush(stdin);
-        }
-        while (output_type != 'r' && output_type != 'm');
-        if (output_type == 'm')
-        {
-            for (int i = 0; i < n_str; i++)
-            {
-                printf("Enter string[%d]:\n", i + 1);
-                if (fgets(string_value[i], str_size + 1, stdin) != NULL)
+                do
                 {
-                    string_value[i][strcspn(string_value[i], "\n")] = '\0';
-                    string_address[i] = string_value[i];
+                    printf("Enter string[%d]:\n", i + 1);
+                    fgets(string_value[i], str_size + 2, stdin);
+                    if (string_value[i][strcspn(string_value[i], "\n")] != '\n')
+                    {
+                        printf("Input is too long. Please enter a string with fewer than %d characters.\n", str_size);
+                        strcpy(string_value[i], "\n");
+                        fflush(stdin);
+                    }
+                    else
+                    {
+                        string_value[i][strcspn(string_value[i], "\n")] = '\0';
+                        string_address[i] = string_value[i];
+                    }
                 }
-                else
-                {
-                    printf("Error\n");
-                }
-                fflush(stdin);
+                while(string_value[i][strcspn(string_value[i], "\n")] != '\0');
+                i++;
             }
         }
         else
@@ -51,7 +55,7 @@ int main()
             {
                 for (int j = 0; j < str_size; j++)
                 {
-                    string_value[i][j] = random_char(65, 122);
+                    string_value[i][j] = random_char(RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
                     string_address[i] = string_value[i];
                 }
                 string_value[i][str_size] = '\0';
@@ -59,21 +63,11 @@ int main()
             }
         }
         print_array(string_address, n_str, "---BEFORE SORTING---\n");
-        do
-        {
-            printf("Type 'a' for ascending sort 'd' for descending sort\n");
-            output_type = getchar();
-            if (output_type != 'a' && output_type != 'd')
-            {
-                printf("Invalid input.\n");
-            }
-            fflush(stdin);
-        }
-        while (output_type != 'a' && output_type != 'd');
-        output_type == 'a'
-        ? string_sort_ascending(string_address, n_str)
-        : string_sort_descending(string_address, n_str);
-        print_array(string_address,n_str, "---AFTER SORTING---\n");
+        user_choice = val_char_input("Type 'a' for ascending sort 'd' for descending sort\n", 'a', 'd');
+        user_choice == 'a'
+                    ? string_sort_ascending(string_address, n_str)
+                    : string_sort_descending(string_address, n_str);
+        print_array(string_address, n_str, "---AFTER SORTING---\n");
         printf("Press Q to exit, any other key to continue...\n");
     }
     while (getchar() != 'Q');

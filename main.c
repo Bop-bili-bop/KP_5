@@ -64,7 +64,8 @@ int main()
                 fflush(stdin);
             }
         }
-        do {
+        do
+        {
             print_array(string_address, n_str, "---BEFORE SORTING---\n");
             user_choice = val_char_input("Type 'a' for ascending sort 'd' for descending sort\n", 'a', 'd');
             user_choice == 'a'

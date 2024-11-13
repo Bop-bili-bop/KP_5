@@ -1,5 +1,6 @@
 #ifndef VALIDATION_H
 #define VALIDATION_H
+#include <conio.h>
 int validate_arraysize_input(char *prompt, int min, int max)
 {
     int value = 0 ;
@@ -21,9 +22,10 @@ int validate_arraysize_input(char *prompt, int min, int max)
 double val_char_input(char *prompt, char choice_1, char choice_2)
 {
     char user_choice = 0;
-    do {
+    do
+    {
         printf("%s", prompt);
-        user_choice = getchar();
+        user_choice = getch();
         if (user_choice != choice_1 && user_choice != choice_2)
         {
             printf("Invalid input.\n");

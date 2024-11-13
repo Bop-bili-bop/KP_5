@@ -4,6 +4,7 @@
 #include "randomize_output.h"
 #include "sort.h"
 #include <time.h>
+#include <conio.h>
 #define STR_SIZE_MIN 1
 #define STR_SIZE_MAX 100
 #define STR_N_MIN 3
@@ -15,6 +16,7 @@ int main()
     do
     {
         printf("This program sorts inputed or randomly generated strings (2 - 1000 strings)\n");
+        printf("WARNING!!! This program only works with LATIN symbols\n");
         srand(time(NULL));
         int str_size = 0;
         int n_str = 0;
@@ -62,14 +64,18 @@ int main()
                 fflush(stdin);
             }
         }
-        print_array(string_address, n_str, "---BEFORE SORTING---\n");
-        user_choice = val_char_input("Type 'a' for ascending sort 'd' for descending sort\n", 'a', 'd');
-        user_choice == 'a'
-                    ? string_sort_ascending(string_address, n_str)
-                    : string_sort_descending(string_address, n_str);
-        print_array(string_address, n_str, "---AFTER SORTING---\n");
+        do {
+            print_array(string_address, n_str, "---BEFORE SORTING---\n");
+            user_choice = val_char_input("Type 'a' for ascending sort 'd' for descending sort\n", 'a', 'd');
+            user_choice == 'a'
+                        ? string_sort_ascending(string_address, n_str)
+                        : string_sort_descending(string_address, n_str);
+            print_array(string_address, n_str, "---AFTER SORTING---\n");
+            printf("Press r to repeat, any other key to continue\n");
+        }
+        while (getch() == 'r');
         printf("Press Q to exit, any other key to continue...\n");
     }
-    while (getchar() != 'Q');
+    while (getch() != 'Q');
     return 0;
 }

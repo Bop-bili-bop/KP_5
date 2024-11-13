@@ -1,6 +1,7 @@
 #ifndef VALIDATION_H
 #define VALIDATION_H
 #include <conio.h>
+#include <ctype.h>
 int validate_arraysize_input(char *prompt, int min, int max)
 {
     int value = 0 ;
@@ -19,7 +20,7 @@ int validate_arraysize_input(char *prompt, int min, int max)
     while (input != 1 || value < min || value > max);
     return value;
 }
-double val_char_input(char *prompt, char choice_1, char choice_2)
+double validate_char_input(char *prompt, char choice_1, char choice_2)
 {
     char user_choice = 0;
     do
@@ -34,5 +35,34 @@ double val_char_input(char *prompt, char choice_1, char choice_2)
     }
     while (user_choice != choice_1 && user_choice != choice_2);
     return user_choice;
+}
+int is_whitespace_only( char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+        {
+        if (!isspace(str[i]))
+        {
+            return 0;  // Found a non-whitespace character
+        }
+    }
+    return 1;  // Only whitespace characters
+}
+void trim_whitespace(char *str)
+{
+    int start = 0;
+    while (isspace(str[start]))
+    {
+        start++;
+    }
+
+    // Trim trailing whitespace
+    int end = strlen(str) - 1;
+    while (end >= start && isspace(str[end]))
+    {
+        end--;
+    }
+    int length = end - start + 1;
+    memmove(str, str + start, length);
+    str[length] = '\0';
 }
 #endif
